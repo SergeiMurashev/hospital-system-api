@@ -2,11 +2,10 @@ syntax = "proto3";
 
 package hospital;
 
-option go_package = "github.com/yourusername/hospital-system-api/proto";
+option go_package = "github.com/sergeimurashev/hospital-system-api/proto";
 
 import "google/protobuf/timestamp.proto";
 
-// Hospital service definition
 service HospitalService {
   rpc CreateHospital(CreateHospitalRequest) returns (Hospital) {}
   rpc GetHospital(GetHospitalRequest) returns (Hospital) {}
@@ -16,7 +15,6 @@ service HospitalService {
   rpc GetRooms(GetRoomsRequest) returns (GetRoomsResponse) {}
 }
 
-// Hospital message
 message Hospital {
   uint64 id = 1;
   string name = 2;
@@ -27,7 +25,6 @@ message Hospital {
   repeated Room rooms = 7;
 }
 
-// Room message
 message Room {
   uint64 id = 1;
   string name = 2;
@@ -36,7 +33,6 @@ message Room {
   google.protobuf.Timestamp updated_at = 5;
 }
 
-// Request messages
 message CreateHospitalRequest {
   string name = 1;
   string address = 2;
@@ -69,7 +65,6 @@ message GetRoomsRequest {
   uint64 hospital_id = 1;
 }
 
-// Response messages
 message DeleteHospitalResponse {
   bool success = 1;
 }

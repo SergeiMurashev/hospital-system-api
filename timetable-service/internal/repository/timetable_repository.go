@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/yourusername/hospital-system-api/timetable-service/internal/domain"
+	"github.com/sergeimurashev/hospital-system-api/timetable-service/internal/domain"
 	"gorm.io/gorm"
 )
 

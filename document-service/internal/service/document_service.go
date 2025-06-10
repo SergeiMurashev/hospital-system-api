@@ -3,10 +3,10 @@ package service
 import (
 	"errors"
 
-	"github.com/yourusername/hospital-system-api/document-service/internal/domain"
-	"github.com/yourusername/hospital-system-api/document-service/internal/repository"
-	"github.com/yourusername/hospital-system-api/document-service/pkg/auth"
-	"github.com/yourusername/hospital-system-api/document-service/pkg/elasticsearch"
+	"github.com/sergeimurashev/hospital-system-api/document-service/internal/domain"
+	"github.com/sergeimurashev/hospital-system-api/document-service/internal/repository"
+	"github.com/sergeimurashev/hospital-system-api/document-service/pkg/auth"
+	"github.com/sergeimurashev/hospital-system-api/document-service/pkg/elasticsearch"
 )
 
 var (
@@ -42,9 +42,7 @@ func (s *documentService) CreateDocument(doc *domain.Document) error {
 		return err
 	}
 
-	// Index document in Elasticsearch
 	if err := s.es.IndexDocument(doc); err != nil {
-		// Log the error but don't fail the request
 		// TODO: Add proper logging
 	}
 
@@ -64,9 +62,7 @@ func (s *documentService) UpdateDocument(doc *domain.Document) error {
 		return err
 	}
 
-	// Update document in Elasticsearch
 	if err := s.es.IndexDocument(doc); err != nil {
-		// Log the error but don't fail the request
 		// TODO: Add proper logging
 	}
 
@@ -78,9 +74,7 @@ func (s *documentService) DeleteDocument(id uint) error {
 		return err
 	}
 
-	// Delete document from Elasticsearch
 	if err := s.es.DeleteDocument(id); err != nil {
-		// Log the error but don't fail the request
 		// TODO: Add proper logging
 	}
 

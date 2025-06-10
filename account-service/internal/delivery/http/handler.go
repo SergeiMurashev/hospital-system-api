@@ -22,7 +22,6 @@ func NewHandler(userService service.UserService) *Handler {
 }
 
 func (h *Handler) RegisterRoutes(router *gin.Engine) {
-	// Health check endpoint
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
@@ -42,8 +41,8 @@ func (h *Handler) RegisterRoutes(router *gin.Engine) {
 
 		accounts := api.Group("/Accounts")
 		{
-			accounts.GET("/Me", h.authMiddleware(), h.getMe)
-			accounts.PUT("/Update", h.authMiddleware(), h.updateMe)
+			accounts.GET("/Me", h.authMiddleware(), h.getAccount)
+			accounts.PUT("/Update", h.authMiddleware(), h.updateAccount)
 			accounts.GET("", h.adminMiddleware(), h.listUsers)
 			accounts.POST("", h.adminMiddleware(), h.createUser)
 			accounts.PUT("/:id", h.adminMiddleware(), h.updateUser)
@@ -90,8 +89,6 @@ func (h *Handler) signIn(c *gin.Context) {
 }
 
 func (h *Handler) signOut(c *gin.Context) {
-	// In a real application, you might want to invalidate the token
-	// For now, we'll just return a success status
 	c.Status(http.StatusOK)
 }
 
@@ -127,7 +124,7 @@ func (h *Handler) refreshToken(c *gin.Context) {
 	c.JSON(http.StatusOK, tokens)
 }
 
-func (h *Handler) getMe(c *gin.Context) {
+func (h *Handler) getAccount(c *gin.Context) {
 	userID := c.GetUint("user_id")
 	user, err := h.userService.GetUserByID(userID)
 	if err != nil {
@@ -138,7 +135,7 @@ func (h *Handler) getMe(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
-func (h *Handler) updateMe(c *gin.Context) {
+func (h *Handler) updateAccount(c *gin.Context) {
 	userID := c.GetUint("user_id")
 	var req domain.UpdateUserRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -195,7 +192,6 @@ func (h *Handler) updateUser(c *gin.Context) {
 		return
 	}
 
-	// Convert CreateUserRequest to UpdateUserRequest
 	updateReq := domain.UpdateUserRequest{
 		FirstName: req.FirstName,
 		LastName:  req.LastName,

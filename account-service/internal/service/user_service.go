@@ -42,7 +42,6 @@ func NewUserService(repo repository.UserRepository, jwtSecret string) UserServic
 }
 
 func (s *userService) SignUp(req *domain.SignUpRequest) error {
-	// Check if user already exists
 	existingUser, err := s.repo.GetByUsername(req.Username)
 	if err != nil {
 		return err
@@ -51,13 +50,11 @@ func (s *userService) SignUp(req *domain.SignUpRequest) error {
 		return ErrUserAlreadyExists
 	}
 
-	// Hash password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
 
-	// Create user
 	user := &domain.User{
 		Username:  req.Username,
 		Password:  string(hashedPassword),
@@ -78,12 +75,10 @@ func (s *userService) SignIn(req *domain.SignInRequest) (*domain.TokenResponse, 
 		return nil, ErrInvalidCredentials
 	}
 
-	// Verify password
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
 		return nil, ErrInvalidCredentials
 	}
 
-	// Generate tokens
 	accessToken, refreshToken, err := s.generateTokens(user)
 	if err != nil {
 		return nil, err
@@ -96,7 +91,6 @@ func (s *userService) SignIn(req *domain.SignInRequest) (*domain.TokenResponse, 
 }
 
 func (s *userService) RefreshToken(req *domain.RefreshTokenRequest) (*domain.TokenResponse, error) {
-	// Parse and validate refresh token
 	token, err := jwt.Parse(req.RefreshToken, func(token *jwt.Token) (interface{}, error) {
 		return []byte(s.jwtSecret), nil
 	})
@@ -104,7 +98,6 @@ func (s *userService) RefreshToken(req *domain.RefreshTokenRequest) (*domain.Tok
 		return nil, err
 	}
 
-	// Get user ID from token
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
 		return nil, errors.New("invalid token claims")
@@ -112,7 +105,6 @@ func (s *userService) RefreshToken(req *domain.RefreshTokenRequest) (*domain.Tok
 
 	userID := uint(claims["user_id"].(float64))
 
-	// Get user
 	user, err := s.repo.GetByID(userID)
 	if err != nil {
 		return nil, err
@@ -121,7 +113,6 @@ func (s *userService) RefreshToken(req *domain.RefreshTokenRequest) (*domain.Tok
 		return nil, ErrUserNotFound
 	}
 
-	// Generate new tokens
 	accessToken, refreshToken, err := s.generateTokens(user)
 	if err != nil {
 		return nil, err
@@ -179,7 +170,6 @@ func (s *userService) ListUsers(offset, limit int) ([]domain.User, error) {
 }
 
 func (s *userService) CreateUser(req *domain.CreateUserRequest) error {
-	// Check if user already exists
 	existingUser, err := s.repo.GetByUsername(req.Username)
 	if err != nil {
 		return err
@@ -188,13 +178,11 @@ func (s *userService) CreateUser(req *domain.CreateUserRequest) error {
 		return ErrUserAlreadyExists
 	}
 
-	// Hash password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
 
-	// Create user
 	user := &domain.User{
 		Username:  req.Username,
 		Password:  string(hashedPassword),
@@ -213,20 +201,17 @@ func (s *userService) ValidateToken(token string) (*jwt.Token, error) {
 }
 
 func (s *userService) generateTokens(user *domain.User) (string, string, error) {
-	// Generate access token
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": user.ID,
 		"roles":   user.Roles,
 		"exp":     time.Now().Add(time.Hour).Unix(),
 	})
 
-	// Generate refresh token
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": user.ID,
 		"exp":     time.Now().Add(24 * time.Hour).Unix(),
 	})
 
-	// Sign tokens
 	accessTokenString, err := accessToken.SignedString([]byte(s.jwtSecret))
 	if err != nil {
 		return "", "", err

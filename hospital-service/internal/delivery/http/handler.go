@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/hospital-system-api/hospital-service/internal/domain"
-	"github.com/yourusername/hospital-system-api/hospital-service/internal/service"
+	"github.com/sergeimurashev/hospital-system-api/hospital-service/internal/domain"
+	"github.com/sergeimurashev/hospital-system-api/hospital-service/internal/service"
 )
 
 type Handler struct {
@@ -20,7 +20,6 @@ func NewHandler(hospitalService service.HospitalService) *Handler {
 }
 
 func (h *Handler) RegisterRoutes(router *gin.Engine) {
-	// Health check endpoint
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
@@ -146,12 +145,10 @@ func (h *Handler) authMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Remove "Bearer " prefix if present
 		if len(token) > 7 && token[:7] == "Bearer " {
 			token = token[7:]
 		}
 
-		// Validate token with account service
 		if err := h.hospitalService.ValidateToken(token); err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token"})
 			c.Abort()
@@ -164,15 +161,12 @@ func (h *Handler) authMiddleware() gin.HandlerFunc {
 
 func (h *Handler) adminMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// First check authentication
 		h.authMiddleware()(c)
 		if c.IsAborted() {
 			return
 		}
 
-		// Then check if user is admin
 		// TODO: Implement admin role check
-		// For now, we'll just allow the request to proceed
 		c.Next()
 	}
 }

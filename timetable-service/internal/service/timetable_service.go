@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/yourusername/hospital-system-api/timetable-service/internal/domain"
-	"github.com/yourusername/hospital-system-api/timetable-service/internal/repository"
-	"github.com/yourusername/hospital-system-api/timetable-service/pkg/auth"
+	"github.com/sergeimurashev/hospital-system-api/timetable-service/internal/domain"
+	"github.com/sergeimurashev/hospital-system-api/timetable-service/internal/repository"
+	"github.com/sergeimurashev/hospital-system-api/timetable-service/pkg/auth"
 )
 
 var (

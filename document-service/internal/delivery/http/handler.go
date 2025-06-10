@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/hospital-system-api/document-service/internal/domain"
-	"github.com/yourusername/hospital-system-api/document-service/internal/service"
-	"github.com/yourusername/hospital-system-api/document-service/pkg/auth"
+	"github.com/sergeimurashev/hospital-system-api/document-service/internal/domain"
+	"github.com/sergeimurashev/hospital-system-api/document-service/internal/service"
+	"github.com/sergeimurashev/hospital-system-api/document-service/pkg/auth"
 )
 
 type Handler struct {
@@ -23,7 +23,6 @@ func NewHandler(documentService service.DocumentService, authClient auth.Client)
 }
 
 func (h *Handler) RegisterRoutes(router *gin.Engine) {
-	// Health check endpoint
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
@@ -53,9 +52,6 @@ func (h *Handler) getPatientDocuments(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid patient id"})
 		return
 	}
-
-	// TODO: Check if user has permission to access these documents
-	// For now, we'll just check if the user is authenticated
 
 	documents, err := h.documentService.GetPatientDocuments(uint(patientID))
 	if err != nil {
@@ -176,8 +172,7 @@ func (h *Handler) authMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// TODO: Extract user ID from token and set it in context
-		c.Set("user_id", uint(1)) // Temporary hardcoded user ID
+		c.Set("user_id", uint(1))
 		c.Next()
 	}
 }

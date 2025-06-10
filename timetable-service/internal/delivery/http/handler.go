@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/hospital-system-api/timetable-service/internal/domain"
-	"github.com/yourusername/hospital-system-api/timetable-service/internal/service"
-	"github.com/yourusername/hospital-system-api/timetable-service/pkg/auth"
+	"github.com/sergeimurashev/hospital-system-api/timetable-service/internal/domain"
+	"github.com/sergeimurashev/hospital-system-api/timetable-service/internal/service"
+	"github.com/sergeimurashev/hospital-system-api/timetable-service/pkg/auth"
 )
 
 type Handler struct {

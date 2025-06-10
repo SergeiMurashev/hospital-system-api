@@ -2,10 +2,10 @@ package grpc
 
 import (
 	"context"
+	"github.com/sergeimurashev/hospital-system-api/proto"
 
 	"github.com/sergeimurashev/hospital-system-api/hospital-service/internal/domain"
 	"github.com/sergeimurashev/hospital-system-api/hospital-service/internal/service"
-	"github.com/sergeimurashev/hospital-system-api/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 

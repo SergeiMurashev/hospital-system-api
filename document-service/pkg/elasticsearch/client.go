@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/elastic/go-elasticsearch/v8"
-	"github.com/yourusername/hospital-system-api/document-service/internal/domain"
+	"github.com/sergeimurashev/hospital-system-api/document-service/internal/domain"
 )
 
 type Client interface {
