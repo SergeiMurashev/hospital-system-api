@@ -7,12 +7,12 @@ toolchain go1.24.1
 require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/joho/godotenv v1.5.1
+	github.com/rogpeppe/go-internal v1.11.0
 	github.com/sergeimurashev/hospital-system-api/proto v0.0.0
 	google.golang.org/grpc v1.62.1
 	google.golang.org/protobuf v1.33.0
 	gorm.io/driver/postgres v1.5.6
 	gorm.io/gorm v1.25.7
-	github.com/rogpeppe/go-internal v1.11.0
 )
 
 replace github.com/sergeimurashev/hospital-system-api/proto => ./proto
@@ -42,9 +42,9 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	golang.org/x/arch v0.3.0 // indirect
-	golang.org/x/crypto v0.14.0 // indirect
-	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/crypto v0.18.0 // indirect
+	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sys v0.26.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

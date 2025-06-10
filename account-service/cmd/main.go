@@ -44,10 +44,8 @@ func main() {
 	}
 	userService := service.NewUserService(userRepo, jwtSecret)
 
-	// Initialize router
 	router := gin.Default()
 
-	// Initialize handler
 	handler := handler.NewHandler(userService)
 	handler.RegisterRoutes(router)
 
@@ -62,13 +60,11 @@ func main() {
 		}
 	}()
 
-	// Wait for interrupt signal to gracefully shutdown the server
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 	log.Println("Shutting down server...")
 
-	// Create a deadline for server shutdown
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
