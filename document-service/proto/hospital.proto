@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package hospital;
+
+option go_package = "github.com/yourusername/hospital-system-api/proto";
+
+import "google/protobuf/timestamp.proto";
+
+// Hospital service definition
+service HospitalService {
+  rpc CreateHospital(CreateHospitalRequest) returns (Hospital) {}
+  rpc GetHospital(GetHospitalRequest) returns (Hospital) {}
+  rpc UpdateHospital(UpdateHospitalRequest) returns (Hospital) {}
+  rpc DeleteHospital(DeleteHospitalRequest) returns (DeleteHospitalResponse) {}
+  rpc ListHospitals(ListHospitalsRequest) returns (ListHospitalsResponse) {}
+  rpc GetRooms(GetRoomsRequest) returns (GetRoomsResponse) {}
+}
+
+// Hospital message
+message Hospital {
+  uint64 id = 1;
+  string name = 2;
+  string address = 3;
+  string phone = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  repeated Room rooms = 7;
+}
+
+// Room message
+message Room {
+  uint64 id = 1;
+  string name = 2;
+  uint64 hospital_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+// Request messages
+message CreateHospitalRequest {
+  string name = 1;
+  string address = 2;
+  string phone = 3;
+  repeated string rooms = 4;
+}
+
+message GetHospitalRequest {
+  uint64 id = 1;
+}
+
+message UpdateHospitalRequest {
+  uint64 id = 1;
+  string name = 2;
+  string address = 3;
+  string phone = 4;
+  repeated string rooms = 5;
+}
+
+message DeleteHospitalRequest {
+  uint64 id = 1;
+}
+
+message ListHospitalsRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message GetRoomsRequest {
+  uint64 hospital_id = 1;
+}
+
+// Response messages
+message DeleteHospitalResponse {
+  bool success = 1;
+}
+
+message ListHospitalsResponse {
+  repeated Hospital hospitals = 1;
+  int32 total = 2;
+}
+
+message GetRoomsResponse {
+  repeated Room rooms = 1;
+} 
